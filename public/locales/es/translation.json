@@ -1,0 +1,16 @@
+{
+  "title": "Traductor JSON en línea: ¡Gratis!",
+  "instruction": {
+    "1": "1. Introduzca JSON.",
+    "2": "2. Seleccione los idiomas de origen y destino para traducir",
+    "3": "3. ¡Traduzcamos JSON y descárguelo!"
+  },
+  "description": {
+    "part1": "Caracteres: ",
+    "part2": "DESCARGAR UN ARCHIVO JSON",
+    "part3": "L.S - Tarea de Dor Balmas",
+    "part4": "presionarme",
+    "part5": "Seleccione el idioma de origen (DESDE):",
+    "part6": "Seleccione el idioma de destino (TO):"
+  }
+}

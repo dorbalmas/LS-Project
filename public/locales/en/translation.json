@@ -1,0 +1,16 @@
+{
+  "title": "Online JSON Translator: Free to use!",
+  "instruction": {
+    "1": "1. Please input JSON.",
+    "2": "2. Select source and target languages to translate",
+    "3": "3. Let's translate JSON and download it!"
+  },
+  "description": {
+    "part1": "Characters:",
+    "part2": "DOWNLOAD A JSON FILE",
+    "part3": "L.S - Task by Dor Balmas",
+    "part4": "press me",
+    "part5": "Select source(FROM) language:",
+    "part6": "Select target(TO) language:"
+  }
+}
