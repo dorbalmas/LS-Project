@@ -11,6 +11,16 @@
     "part3": "L.S - Tarea de Dor Balmas",
     "part4": "presionarme",
     "part5": "Seleccione el idioma de origen (DESDE):",
-    "part6": "Seleccione el idioma de destino (TO):"
+    "part6": "Seleccione el idioma de destino (TO):",
+    "part7": "JSON EDITOR",
+    "part8": "EDITAR AQUI",
+    "part9": "PÁGINA DE INICIO",
+    "part10": "DESCARGAR LISTA"
+  },
+  "table": {
+    "name": "Nombre",
+    "json": "Json",
+    "date": "Fecha",
+    "delete": "Eliminar"
   }
 }

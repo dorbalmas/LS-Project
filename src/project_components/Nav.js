@@ -42,7 +42,14 @@ function Nav(props) {
         </div>
         <div classNameName="container-fluid  bg-dark text-white form-control mb-3">
           <div className="container text-center">
-            <Link to="/">HOME</Link>
+            <Link to="/">
+              {" "}
+              <Trans i18nKey="description.part9"></Trans>
+            </Link>
+            <Link to="/list">
+              {" "}
+              <Trans i18nKey="description.part10"></Trans>
+            </Link>
           </div>
         </div>
         <div>

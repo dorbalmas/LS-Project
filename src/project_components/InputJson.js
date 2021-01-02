@@ -1,23 +1,41 @@
 import React, { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
+import { onDownload, sendForm } from "../usefull/usefulFunctions";
 import { Popup } from "semantic-ui-react";
 import JSONInput from "react-json-editor-ajrm";
 import locale from "react-json-editor-ajrm/locale/en";
 import { Trans, useTranslation } from "react-i18next";
-import { onDownload } from "../usefull/usefulFunctions";
 import "semantic-ui-css/semantic.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import TranslateComp from "./TranslateComp";
 const InputJson = () => {
+  let history = useHistory();
   let [size, setsize] = useState("");
   let sizeRefInput = useRef("");
   let [sampleData, setsampleData] = useState();
   let [jsObjectJson, setjsObjectJson] = useState();
   let [errorJson, seterrorJson] = useState(true);
   let [countChar, setcountChar] = useState(null);
-  let onDownloadHolder = () => {
-    onDownload(jsObjectJson);
+  let onDownloadHolder = async () => {
+    await (async () => {
+      const { value: text } = await Swal.fire({
+        input: "textarea",
+        inputPlaceholder: "Type your JSON name here...",
+        inputAttributes: {
+          "aria-label": "Type your message here",
+        },
+        showCancelButton: true,
+      });
+
+      if (text) {
+        sendForm(text, JSON.stringify(jsObjectJson));
+      }
+    })();
+    await onDownload(jsObjectJson);
+    await history.push("/list");
   };
   const { i18n } = useTranslation();
   return (
@@ -75,11 +93,10 @@ const InputJson = () => {
         <div className="col">
           <JSONInput
             id="id_json"
-            waitAfterKeyPress={100}
             placeholder={sampleData}
             onChange={(e) => {
               setcountChar(
-                e.plainText == undefined
+                e.plainText === undefined
                   ? 0
                   : e.plainText.replace(/\s/g, "").length
               );

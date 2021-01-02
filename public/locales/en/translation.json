@@ -11,6 +11,16 @@
     "part3": "L.S - Task by Dor Balmas",
     "part4": "press me",
     "part5": "Select source(FROM) language:",
-    "part6": "Select target(TO) language:"
+    "part6": "Select target(TO) language:",
+    "part7": "JSON EDITOR",
+    "part8": "EDIT HERE",
+    "part9": "HOME PAGE",
+    "part10": "DOWNLOAD LIST"
+  },
+  "table": {
+    "name": "Name",
+    "json": "Json",
+    "date": "Date",
+    "delete": "Delete"
   }
 }

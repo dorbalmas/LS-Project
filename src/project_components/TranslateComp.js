@@ -5,7 +5,8 @@ import { googleTranslate } from "../utils/googleTranslate";
 import { Trans } from "react-i18next";
 import JSONInput from "react-json-editor-ajrm";
 import locale from "react-json-editor-ajrm/locale/en";
-import { onDownload } from "../usefull/usefulFunctions";
+import Swal from "sweetalert2";
+import { onDownload, sendForm } from "../usefull/usefulFunctions";
 
 class TranslateComp extends Component {
   constructor(props) {
@@ -41,8 +42,23 @@ class TranslateComp extends Component {
       };
     });
 
-    let onDownloadHolder = () => {
-      onDownload(jsObjectJson);
+    let onDownloadHolder = async () => {
+      await (async () => {
+        const { value: text } = await Swal.fire({
+          input: "textarea",
+          inputPlaceholder: "Type your JSON name here...",
+          inputAttributes: {
+            "aria-label": "Type your message here",
+          },
+          showCancelButton: true,
+        });
+
+        if (text) {
+          sendForm(text, JSON.stringify(jsObjectJson));
+        }
+      })();
+      await onDownload(jsObjectJson);
+      window.location.href = "/list";
     };
     return (
       <div className="mb-2">
