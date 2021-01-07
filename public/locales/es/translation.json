@@ -21,6 +21,7 @@
     "name": "Nombre",
     "json": "Json",
     "date": "Fecha",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "download": "Descárgue"
   }
 }

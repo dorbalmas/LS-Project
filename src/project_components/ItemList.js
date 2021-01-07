@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import { onDownload } from "../usefull/usefulFunctions";
 export function Td({ children, to }) {
   const ContentTag = to ? Link : "div";
+
   return (
     <td>
       <ContentTag className="form-control-range " to={to}>
@@ -16,15 +17,27 @@ export function Td({ children, to }) {
 const ItemList = (props) => {
   let item = props.item;
   let counter = props.counter;
+  const onDownloadHolder = () => {
+    onDownload(JSON.parse(item.json), item.name);
+  };
   return (
     <tbody className="bg-white">
       <tr className="changeMeTr text-center ">
         <Td to={`/single/${item._id}`}>{counter}</Td>
+        <td>
+          {" "}
+          <button className="btn text-info" onClick={onDownloadHolder}>
+            <i className="fas fa-download"></i>{" "}
+          </button>
+        </td>
         <Td to={`/single/${item._id}`}>{item.name}</Td>
         <Td to={`/single/${item._id}`}>
-          <textarea rows="1" className="w-50" disabled>
-            {item.json}
-          </textarea>
+          <textarea
+            rows="1"
+            className=" form-control-range"
+            disabled
+            defaultValue={item.json}
+          ></textarea>
         </Td>
         <Td to={`/single/${item._id}`}>{item.date}</Td>
 

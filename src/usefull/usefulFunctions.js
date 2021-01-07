@@ -1,8 +1,7 @@
 import { doApiPost } from "../services/apiService";
 import Swal from "sweetalert2";
-export const onDownload = (jsObjectJson) => {
-  download(jsObjectJson, "json-file-name.json", "text/plain");
-  console.log(jsObjectJson);
+export const onDownload = (jsObjectJson, _filename) => {
+  download(jsObjectJson, `${_filename}.json`, "text/plain");
 };
 const download = (content, fileName, contentType) => {
   const a = document.createElement("a");
@@ -16,7 +15,6 @@ export const sendForm = (_name, _json) => {
     name: _name,
     json: _json,
   };
-  console.log(newObj);
   doApiPost(
     " https://ls-task-back.herokuapp.com/downloads/adddownload",
     newObj

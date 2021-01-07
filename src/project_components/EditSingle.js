@@ -21,7 +21,6 @@ const EditSingle = (props) => {
     doApiGet(url).then((data) => {
       setItemData(data);
       setjsonHolder(JSON.parse(JSON.parse(data.json)));
-      console.log(JSON.parse(data.json));
     });
   }, []);
 
@@ -34,8 +33,6 @@ const EditSingle = (props) => {
       json: jsObjectJson,
       date: itemData.date,
     };
-    console.log(newObj);
-    console.log(itemData.json);
     doApiPost(
       " https://ls-task-back.herokuapp.com/downloads/updatedownload",
       newObj

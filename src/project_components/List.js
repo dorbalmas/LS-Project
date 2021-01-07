@@ -6,23 +6,25 @@ import { Trans, useTranslation } from "react-i18next";
 
 const List = (props) => {
   let [arr_list, setArr_list] = useState([]);
+  let [arr_list2, setArr_list2] = useState([]);
   let [loading, setloading] = useState(true);
   let counter = 0;
   const { i18n } = useTranslation();
   useEffect(() => {
     let url = " https://ls-task-back.herokuapp.com/downloads";
-    if (props.match.params.qS) {
-      url = ` https://ls-task-back.herokuapp.com/downloads/searchdownload/?q=${props.match.params.qS}`;
-    }
-    let timer = setTimeout(() => {
-      doApiGet(url).then((data) => {
-        setArr_list(data);
-        setloading(false);
-      });
-    }, 200);
-    setloading(true);
-    return () => clearTimeout(timer);
-  }, [props.match]);
+    doApiGet(url).then((data) => {
+      setArr_list(data);
+      setArr_list2(data);
+      setloading(false);
+    });
+  }, []);
+  useEffect(() => {
+    let url = " https://ls-task-back.herokuapp.com/downloads";
+    doApiGet(url).then((data) => {
+      setArr_list(data);
+      setloading(false);
+    });
+  }, [arr_list2]);
 
   const remove = (_downloadId) => {
     doApiPost(
@@ -48,10 +50,14 @@ const List = (props) => {
               <ReactbootStrap.Spinner animation="border" />
             </div>
           ) : (
-            <table class="table my-2 border rounded mx-5">
+            <table className="table my-2 border rounded mx-5">
               <thead className="bg-warning">
                 <tr className="text-center">
                   <th scope="col">#</th>
+                  <th scope="col">
+                    {" "}
+                    <Trans i18nKey="table.download"></Trans>
+                  </th>
                   <th scope="col">
                     <Trans i18nKey="table.name"></Trans>
                   </th>

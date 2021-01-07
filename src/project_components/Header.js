@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 const Header = (props) => {
-  const { t, i18n } = useTranslation();
+  const {} = useTranslation();
 
   return (
     <Link to="/">

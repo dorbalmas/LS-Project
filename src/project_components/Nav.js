@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Popup } from "semantic-ui-react";
+import { useHistory } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 function Nav(props) {
   const { t, i18n } = useTranslation();
+  let history = useHistory();
 
   const changeLanguage = (language) => {
     i18n.changeLanguage(language);
@@ -31,6 +33,7 @@ function Nav(props) {
                   style={{ position: "absolute", top: "-263px", left: "-10px" }}
                 >
                   <iframe
+                    title="h"
                     width="300"
                     height="300"
                     src="https://www.youtube.com/embed/5qap5aO4i9A?playlist=dTbONq0zxRA&rel=0"
@@ -40,7 +43,7 @@ function Nav(props) {
             }
           />
         </div>
-        <div classNameName="container-fluid  bg-dark text-white form-control mb-3">
+        <div>
           <div className="container text-center">
             <Link to="/">
               {" "}
@@ -55,13 +58,23 @@ function Nav(props) {
         <div>
           <button
             className="btn-outline-info"
-            onClick={() => changeLanguage("en")}
+            onClick={() => {
+              changeLanguage("en");
+              history.location.pathname === "/"
+                ? history.push("/")
+                : history.push("/list");
+            }}
           >
             ENGLISH
           </button>
           <button
             className="btn-outline-info"
-            onClick={() => changeLanguage("es")}
+            onClick={() => {
+              changeLanguage("es");
+              history.location.pathname === "/"
+                ? history.push("/")
+                : history.push("/list");
+            }}
           >
             SPANISH
           </button>

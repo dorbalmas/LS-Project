@@ -3,12 +3,15 @@ import cookie from "react-cookies";
 import { Dropdown } from "semantic-ui-react";
 import { googleTranslate } from "../utils/googleTranslate";
 import { Trans } from "react-i18next";
+
 import JSONInput from "react-json-editor-ajrm";
 import locale from "react-json-editor-ajrm/locale/en";
 import Swal from "sweetalert2";
 import { onDownload, sendForm } from "../usefull/usefulFunctions";
+import { withRouter } from "react-router-dom";
+import { PureComponent } from "react";
 
-class TranslateComp extends Component {
+class TranslateComp extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,14 +29,12 @@ class TranslateComp extends Component {
 
     const getLanguageCodes = (languageCodes) => {
       this.setState({ languageCodes });
-      console.log(languageCodes);
     };
-    console.log(this.state.tranlatedObjJson);
   }
 
   render() {
     const { languageCodes, language, jsObjectJson } = this.state;
-
+    const { location, history } = this.props;
     const options = languageCodes.map((lang) => {
       return {
         key: lang.language,
@@ -42,8 +43,8 @@ class TranslateComp extends Component {
       };
     });
 
-    let onDownloadHolder = async () => {
-      await (async () => {
+    let onDownloadHolder = () => {
+      (async () => {
         const { value: text } = await Swal.fire({
           input: "textarea",
           inputPlaceholder: "Type your JSON name here...",
@@ -55,11 +56,12 @@ class TranslateComp extends Component {
 
         if (text) {
           sendForm(text, JSON.stringify(jsObjectJson));
+          onDownload(jsObjectJson, text);
+          history.push("/list");
         }
       })();
-      await onDownload(jsObjectJson);
-      window.location.href = "/list";
     };
+
     return (
       <div className="mb-2">
         <div>
@@ -140,7 +142,6 @@ class TranslateComp extends Component {
   }
 
   changeHandler = (language) => {
-    console.log(language);
     let jsObjectJson = this.props.jsObjectJson;
     let cookieLanguage = cookie.load("language");
     let transjsObjectJson = "";
@@ -150,7 +151,6 @@ class TranslateComp extends Component {
         this.setState({ jsObjectJson: transjsObjectJson });
         cookie.save("jsObjectJson", transjsObjectJson, { path: "/" });
       }
-      console.log(transjsObjectJson);
       this.setState({ tranlatedObjJson: JSON.parse(transjsObjectJson) });
     };
 
@@ -170,4 +170,4 @@ class TranslateComp extends Component {
   };
 }
 
-export default TranslateComp;
+export default withRouter(TranslateComp);

@@ -11,6 +11,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import TranslateComp from "./TranslateComp";
+import { set } from "lodash";
 const InputJson = () => {
   let history = useHistory();
   let [size, setsize] = useState("");
@@ -18,9 +19,8 @@ const InputJson = () => {
   let [sampleData, setsampleData] = useState();
   let [jsObjectJson, setjsObjectJson] = useState();
   let [errorJson, seterrorJson] = useState(true);
-  let [countChar, setcountChar] = useState(null);
-  let onDownloadHolder = async () => {
-    await (async () => {
+  let onDownloadHolder = () => {
+    (async () => {
       const { value: text } = await Swal.fire({
         input: "textarea",
         inputPlaceholder: "Type your JSON name here...",
@@ -32,12 +32,36 @@ const InputJson = () => {
 
       if (text) {
         sendForm(text, JSON.stringify(jsObjectJson));
+        onDownload(jsObjectJson, text);
+        history.push("/list");
       }
     })();
-    await onDownload(jsObjectJson);
-    await history.push("/list");
   };
-  const { i18n } = useTranslation();
+
+  const onChangeFile = (e) => {
+    let file = e.target.files[0];
+    let jsonType = /json.*/;
+    let jsonSize = 25000000;
+
+    if (file.type.match(jsonType) && file.size <= jsonSize) {
+      let reader = new FileReader();
+
+      reader.onload = function () {
+        setsampleData(JSON.parse(reader.result));
+        setjsObjectJson(reader.result);
+      };
+      seterrorJson(false);
+      reader.readAsText(file);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "File not supported!",
+        text: "Please enter a json file",
+      });
+    }
+  };
+
+  useTranslation();
   return (
     <div
       className="container-fluid justify-content-lg-center align-items-center border border-grey  "
@@ -80,7 +104,6 @@ const InputJson = () => {
                   className="col-1 btn btn-light "
                   onClick={() => {
                     setsampleData({});
-                    setcountChar(2);
                   }}
                 >
                   <i className="fas fa-backspace "></i>
@@ -89,17 +112,18 @@ const InputJson = () => {
             />
           </div>
         </div>
+        <div className="col">
+          <input
+            type="file"
+            className="my-3"
+            onChange={(e) => onChangeFile(e)}
+          />
+        </div>
 
         <div className="col">
           <JSONInput
-            id="id_json"
             placeholder={sampleData}
             onChange={(e) => {
-              setcountChar(
-                e.plainText === undefined
-                  ? 0
-                  : e.plainText.replace(/\s/g, "").length
-              );
               setjsObjectJson(JSON.stringify(e.jsObject));
               seterrorJson(e.error);
             }}
@@ -113,7 +137,7 @@ const InputJson = () => {
         </div>
         <div className="d-flex justify-content-between">
           <button
-            disabled={countChar === 0 ? true : errorJson}
+            disabled={!sampleData ? true : errorJson}
             onClick={onDownloadHolder}
             type="button"
             className=" btn btn-info "
@@ -122,22 +146,10 @@ const InputJson = () => {
             <i className="fas fa-download"></i>{" "}
             <Trans i18nKey="description.part2"></Trans>
           </button>
-          <p className="h5">
-            {" "}
-            <b>
-              {" "}
-              <Trans i18nKey="description.part1"> </Trans>
-            </b>{" "}
-            {countChar ? countChar : 0} / 3000
-          </p>
         </div>
       </div>
       <div className="container border border-light mt-2">
-        <TranslateComp
-          jsObjectJson={jsObjectJson}
-          errorJson={errorJson}
-          countChar={countChar}
-        />
+        <TranslateComp jsObjectJson={jsObjectJson} errorJson={errorJson} />
       </div>
     </div>
   );
